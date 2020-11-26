@@ -35,15 +35,15 @@ namespace BookingSystem
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(
-                options => options.SignIn.RequireConfirmedAccount = true)
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                            .AddRoles<IdentityRole>()
                             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -71,6 +71,29 @@ namespace BookingSystem
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            CreateUserRoles(services).Wait();
         }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            if (!await RoleManager.RoleExistsAsync("Seller"))
+            {
+                //create the roles and seed them to the database
+                await RoleManager.CreateAsync(new IdentityRole("Seller"));
+            }
+            if (!await RoleManager.RoleExistsAsync("Customer"))
+            {
+                //create the roles and seed them to the database
+                await RoleManager.CreateAsync(new IdentityRole("Customer"));
+            }
+
+            //ApplicationUser user = await UserManager.FindByEmailAsync("foo@gmail.com"); // You can add sellers this way for now
+            //var result = await UserManager.AddToRoleAsync(user, "Seller");
+        }
+
     }
 }
