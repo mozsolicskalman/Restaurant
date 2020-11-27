@@ -11,7 +11,7 @@ namespace BookingSystem.Models
     public class Customer
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public IEnumerable<Appointment> Appointments { get; set; }
 
     }

@@ -10,10 +10,10 @@ namespace BookingSystem.Models
     {
         [Key]
         public int Id { get; set; }
-        public Customer Customer { get; set; }
-        public Seller Seller { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Seller Seller { get; set; }
 
-        public TimeFrame TimeFrame { get; set; }
+        public virtual TimeFrame TimeFrame { get; set; }
 
         public bool Accepted { get; set; }
 

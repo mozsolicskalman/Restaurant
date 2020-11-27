@@ -10,11 +10,17 @@ namespace BookingSystem.Models
 {
     public class Seller
     {
-        [Key]
-        public int Id { get; set; }
-        public IEnumerable<Appointment> Appointments { get; set; }
+        public Seller()
+        {
+            this.Appointments = new HashSet<Appointment>();
+            this.WorkingHours = new HashSet<TimeFrame>();
+        }
 
-        public IEnumerable<TimeFrame> WorkingHours { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public virtual ICollection<TimeFrame> WorkingHours { get; set; }
 
 }
 }

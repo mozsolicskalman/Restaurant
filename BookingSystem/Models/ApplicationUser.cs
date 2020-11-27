@@ -10,6 +10,6 @@ namespace BookingSystem.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual Customer Customer { get; set; }
-        public virtual Seller Supplier { get; set; }
+        public virtual Seller Seller { get; set; }
     }
 }

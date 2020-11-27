@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookingSystem.Models;
+using BookingSystem.Services.Interfaces;
+using BookingSystem.Services.SellerService;
 
 namespace BookingSystem
 {
@@ -31,6 +33,8 @@ namespace BookingSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<ISellerService, SellerService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
