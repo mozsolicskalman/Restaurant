@@ -14,15 +14,18 @@ namespace BookingSystem.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+
         }
-            public DbSet<Customer> Customers { get; set; }
-            public DbSet<Seller> Sellers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
 
         public async Task<Seller> GetSellerAsync(string userId)
         {
-            var seller = await Sellers.FirstOrDefaultAsync(s=>s.Id.Equals(userId));
-            if(seller == null)
+            var seller = await Sellers
+                .Include("WorkingHours")
+                .Include("Appointments")
+                .FirstOrDefaultAsync(s => s.Id.Equals(userId));
+            if (seller == null)
             {
                 seller = new Seller
                 {
@@ -33,6 +36,23 @@ namespace BookingSystem.Data
                 Sellers.Add(seller);
             }
             return seller;
+        }
+
+        public async Task<Customer> GetCustomerAsync(string userId)
+        {
+            var customer = await Customers
+                .Include("Appointments")
+                .FirstOrDefaultAsync(c => c.Id.Equals(userId));
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    Id = userId,
+                    Appointments = new LinkedList<Appointment>(),
+                };
+                Customers.Add(customer);
+            }
+            return customer;
         }
     }
 }

@@ -13,10 +13,7 @@ namespace BookingSystem.Services.Interfaces
     {
         public Task<bool> SetMeAvailableAsync(string userId, TimeFrame timeFrame);
 
-        public IEnumerable<Appointment> GetAppointmentsAsync(string userId);
+        public Task<Seller> GetSellerAsync(string userId);
 
-        public IEnumerable<TimeFrame> GetWorkingHoursAsync(string userId);
-
-        
     }
 }

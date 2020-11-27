@@ -28,10 +28,10 @@
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Seller"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="seller" asp-action="Index">Seller Options</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="seller" asp-action="Index">Options</a>
                             </li>
                         }
-                        else if(SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Booking</a>

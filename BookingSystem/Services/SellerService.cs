@@ -19,16 +19,6 @@ namespace BookingSystem.Services.SellerService
             _context = context;
         }
 
-        public IEnumerable<Appointment> GetAppointmentsAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TimeFrame> GetWorkingHoursAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SetMeAvailableAsync(string userId, TimeFrame timeFrame)
         {
             if (timeFrame.EndTime <= timeFrame.StartTime)
@@ -38,6 +28,16 @@ namespace BookingSystem.Services.SellerService
             seller.WorkingHours.Add(timeFrame);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<Seller> GetSellerAsync(string userId)
+        {
+            return await _context.GetSellerAsync(userId);
+        }
+
+        public async Task<Customer> GetCustomerAsync(string userId)
+        {
+            return await _context.GetCustomerAsync(userId);
         }
     }
 }

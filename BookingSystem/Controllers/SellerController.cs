@@ -26,8 +26,9 @@ namespace BookingSystem.Controllers
             this._sellerService = sellerService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
             return View();
         }
 
@@ -35,16 +36,18 @@ namespace BookingSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetMeAvailableAsync(TimeFrameDto timeFrameDto)
         {
-            var userId =_userManager.GetUserId(HttpContext.User);
+            var userId = _userManager.GetUserId(HttpContext.User);
             try
             {
                 await _sellerService.SetMeAvailableAsync(userId, timeFrameDto.GetTimeFrame());
-            } catch (InvalidTimeFrameException ex)
+            }
+            catch (InvalidTimeFrameException ex)
             {
                 ModelState.AddModelError("CustomError", ex.Message);
             }
             TempData["success"] = "Added to calendar";
-            return View("Index",timeFrameDto);
+            ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
+            return View("Index", timeFrameDto);
         }
 
     }

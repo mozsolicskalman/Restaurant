@@ -1,18 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Set up business ";
+    ViewData["Title"] = "Set up business";
 }
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Here you can set your business settings</p>
 
-        <div>Business hours</div>
+    <div>Business hours</div>
     @using (Html.BeginForm("SetMeAvailable", "seller", FormMethod.Post))
     {
         @model BookingSystem.DTOs.TimeFrameDto
         <div>
             <label for="From">From:</label>
             @Html.EditorFor(model => model.StartTime)
-
         </div>
         <div>
             <label for="To">To:</label>
@@ -22,16 +21,40 @@
             @Html.ValidationMessage("CustomError")
         </div>
 
-        @if(TempData["success"]!= null)
+        @if (TempData["success"] != null)
         {
             <div id="SuccessMessage">@Html.Encode(TempData["success"])</div>
         }
-
         <div>
             <label>&nbsp;</label>
             <input type="submit" value="Add" class="submit" />
         </div>
+    }
 
+    <div>
+        @if (ViewData["seller"] != null)
+        {
+
+            <p style="float: left">Already set:</p>
+            <table>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+                @foreach (var wh in (ViewData["seller"] as Seller).WorkingHours)
+                {
+                    <tr>
+                        <td>  @wh.StartTime -</td>
+                        <td>  @wh.EndTime </td>
+                    </tr>
+                }
+            </table>
         }
+        else
+        {
+            <p> style="float: left" No dates to show</p>
+        }
+
     </div>
+</div>
 
