@@ -13,9 +13,11 @@ namespace BookingSystem.Services.Interfaces
     {
         public Task<bool> SetMeAvailableAsync(string userId, TimeFrame timeFrame);
 
-        public Task<bool> RecieveApointmentRequest(string sellerUserId, TimeFrame timeFrame);
+        public Task<bool> RecieveApointmentRequestAsync(string sellerUserId, TimeFrame timeFrame);
 
-        public Task<bool> AceptAppointmentRequest(string sellerUserId, Appointment appointment);
+        public Task<bool> AcceptAppointmentRequestAsync(string sellerUserId, string appointmentId);
+
+        public Task<bool> AddProvidedServiceAsync(string sellerUserId, Service service);
 
         public Task<Seller> GetSellerAsync(string userId);
 

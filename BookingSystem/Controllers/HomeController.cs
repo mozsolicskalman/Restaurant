@@ -40,7 +40,7 @@ namespace BookingSystem.Controllers
         }
 
         [Authorize(Roles = "Seller")]
-        public async Task<IActionResult> WelcomeSeller()
+        public async Task<IActionResult> WelcomeSellerAsync()
         {
             ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
             return View();

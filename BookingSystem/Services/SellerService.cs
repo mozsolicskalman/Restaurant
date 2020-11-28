@@ -29,7 +29,7 @@ namespace BookingSystem.Services.SellerService
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> RecieveApointmentRequest(string sellerUserId, TimeFrame timeFrame)
+        public async Task<bool> RecieveApointmentRequestAsync(string sellerUserId, TimeFrame timeFrame)
         {
             Seller seller = await GetSellerAsync(sellerUserId);
 
@@ -43,26 +43,32 @@ namespace BookingSystem.Services.SellerService
             }
         }
 
-        public async Task<bool> AceptAppointmentRequest(string sellerUserId, Appointment appointment)
+        public async Task<bool> AcceptAppointmentRequestAsync(string sellerUserId, string appointmentId)
         {
             Seller seller = await GetSellerAsync(sellerUserId);
+            Appointment appointment = seller.Appointments.FirstOrDefault(a => a.Id == appointmentId);
+
+            if (appointment == null)
+                throw new InvalidAppointment("Could not fint the appointment. May have been cancelled.");
 
             if (seller.IsAvailableIn(appointment.TimeFrame))
             {
                 appointment.Accepted = true;
+                await _context.SaveChangesAsync();
                 return true;
             }
             else
             {
-                throw new InvalidTimeFrameException("An other meeting was accepted instead.");
+                throw new InvalidTimeFrameException("Could not accept the appointment. An other one was accepted instead.");
             }
         }
 
-        public async Task<bool> AddProvidedService(string sellerUserId, Service service)
+        public async Task<bool> AddProvidedServiceAsync(string sellerUserId, Service service)
         {
             Seller seller = await GetSellerAsync(sellerUserId);
 
             seller.ProvidedServices.Add(service);
+            await _context.SaveChangesAsync();
             return true;
         }
 

@@ -26,7 +26,18 @@ namespace BookingSystem.Controllers
             this._sellerService = sellerService;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
+        {
+            return Redirect("Availability");
+        }
+
+        public async Task<ActionResult> Availability()
+        {
+            ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
+            return View();
+        }
+
+        public async Task<ActionResult> Services()
         {
             ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
             return View();
@@ -45,9 +56,39 @@ namespace BookingSystem.Controllers
             {
                 ModelState.AddModelError("CustomError", ex.Message);
             }
+
             TempData["success"] = "Added to calendar";
             ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
-            return View("Index", timeFrameDto);
+            return View("Availability");
+        }
+
+        public async Task<ActionResult> AcceptAppointmentRequestAsync(string appointmentId)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            TempData["AcceptAppointmentMessage"] = "You have accepted the appointment!";
+            try
+            {
+                await _sellerService.AcceptAppointmentRequest(userId, appointmentId);
+            }
+            catch (Exception ex)
+            {
+                TempData["AcceptAppointmentMessage"] = ex.Message;
+            }
+
+            return View("AcceptAppointmentResult");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNewServiceAsync(ServiceDto serviceDto)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            await _sellerService.AddProvidedService(userId, serviceDto.GetService());
+
+            TempData["serviceAddSuccess"] = "Added to services";
+            ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
+            return View("Services");
         }
 
     }

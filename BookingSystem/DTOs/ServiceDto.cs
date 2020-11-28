@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using BookingSystem.Models;
 
 namespace BookingSystem.DTOs
 {
-    public class ServiceDtO
+    public class ServiceDto
     {
+        [Required]
         public string Type { get; set; }
-        public double DurrationMinutes { get; set; }
 
-        public ServiceDtO(Service service)
-        {
-            this.Type = service.Type;
-            this.DurrationMinutes = service.DurrationMinutes;
-        }
+        [Required]
+        public double DurrationMinutes { get; set; }
 
         public Service GetService()
         {
             return new Service
             {
                 DurrationMinutes = this.DurrationMinutes,
-                Type = this.Type
+                Type = this.Type,
+                Id = Guid.NewGuid().ToString()
             };
         }
     }

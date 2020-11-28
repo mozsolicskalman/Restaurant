@@ -9,7 +9,7 @@ namespace BookingSystem.Models
     public class Appointment
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Seller Seller { get; set; }
 

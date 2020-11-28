@@ -24,6 +24,7 @@ namespace BookingSystem.Data
             var seller = await Sellers
                 .Include("WorkingHours")
                 .Include("Appointments")
+                .Include("ProvidedServices")
                 .FirstOrDefaultAsync(s => s.Id.Equals(userId));
             if (seller == null)
             {
