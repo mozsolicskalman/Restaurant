@@ -13,6 +13,7 @@ namespace BookingSystem.Models
         public virtual Customer Customer { get; set; }
         public virtual Seller Seller { get; set; }
 
+        public Service Service { get; set; }
         public virtual TimeFrame TimeFrame { get; set; }
 
         public bool Accepted { get; set; }

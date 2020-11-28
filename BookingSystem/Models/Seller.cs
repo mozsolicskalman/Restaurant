@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BookingSystem.Models
 {
-    public class Seller
+    public partial class Seller
     {
         public Seller()
         {
             this.Appointments = new HashSet<Appointment>();
             this.WorkingHours = new HashSet<TimeFrame>();
+            this.ProvidedServices = new HashSet<Service>();
         }
 
         [Key]
@@ -22,5 +23,6 @@ namespace BookingSystem.Models
 
         public virtual ICollection<TimeFrame> WorkingHours { get; set; }
 
-}
+        public virtual ICollection<Service> ProvidedServices { get; set; }
+    }
 }

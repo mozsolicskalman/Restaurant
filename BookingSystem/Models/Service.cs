@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BookingSystem.Models
 {
-    public partial class TimeFrame
+    public class Service
     {
         [Key]
-        public int Id { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public double DurrationMinutes { get; set; }
     }
 }
