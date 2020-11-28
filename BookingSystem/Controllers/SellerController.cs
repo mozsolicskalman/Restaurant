@@ -68,7 +68,7 @@ namespace BookingSystem.Controllers
             TempData["AcceptAppointmentMessage"] = "You have accepted the appointment!";
             try
             {
-                await _sellerService.AcceptAppointmentRequest(userId, appointmentId);
+                await _sellerService.AcceptAppointmentRequestAsync(userId, appointmentId);
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace BookingSystem.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
-            await _sellerService.AddProvidedService(userId, serviceDto.GetService());
+            await _sellerService.AddProvidedServiceAsync(userId, serviceDto.GetService());
 
             TempData["serviceAddSuccess"] = "Added to services";
             ViewData["seller"] = await _sellerService.GetSellerAsync(_userManager.GetUserId(HttpContext.User));
