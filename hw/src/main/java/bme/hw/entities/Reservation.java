@@ -17,6 +17,8 @@ public class Reservation extends AbstractEntity {
 
     private LocalDateTime reservationTime;
 
+    private Long feedback;
+
     @ManyToOne
     @JoinColumn(name = "desk_id", nullable = false)
     private Desk desk;

@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Order extends AbstractEntity {
 
-    private Long feedback;
-
     private LocalDateTime orderTime;
 
     @ManyToOne
@@ -21,4 +19,9 @@ public class Order extends AbstractEntity {
     private AuthUser customer;
 
     private OrderType orderType;
+
+    private Long price;
+
+    @OneToOne(mappedBy = "order")
+    private Coupon coupon;
 }
