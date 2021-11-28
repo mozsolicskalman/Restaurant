@@ -33,4 +33,8 @@
         <sqlFile relativeToChangelogFile="true" path="07_create_auth_user_roles.sql"/>
     </changeSet>
 
+    <changeSet id="8" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="08_add_init_data.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

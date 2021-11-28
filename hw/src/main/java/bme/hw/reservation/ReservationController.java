@@ -3,12 +3,14 @@ package bme.hw.reservation;
 import bme.hw.auth_user.AuthUser;
 import bme.hw.auth_user.AuthUserRepository;
 import bme.hw.entities.Reservation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/reservations")
@@ -22,11 +24,6 @@ public class ReservationController {
         this.authUserRepository = authUserRepository;
     }
 
-    @GetMapping
-    public List<Reservation> getReservations (){
-        List<Reservation> reservations = reservationRepository.findAll();
-        return reservations;
-    }
 /*
     @PutMapping("/updateReservation")
     public void updateReservation(@RequestBody ReservationDTO reservationDTO){
@@ -42,18 +39,16 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ReservationResponseDTO getReservation(){
+    public ResponseEntity<Object> getReservation(){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new RuntimeException("Logged user not present in database"));
-        Reservation reservation = reservationRepository.findByCustomer_id(loggedInUser.getId());
-        if(reservation == null)
-            return null;
-        return new ReservationResponseDTO(reservation.getReservationTime(),
-                reservation.getDesk().getId(),
-                reservation.getDesk().getSeats(),
-                loggedInUser.getId(),
-                loggedInUser.getUsername());
+        List<Reservation> reservations = reservationRepository.findAllByCustomer(loggedInUser);
+        return ResponseEntity.ok().body(reservations.stream().map(reservation -> new ReservationResponseDTO(reservation.getReservationTime(),
+                        reservation.getDesk().getId(),
+                        reservation.getDesk().getSeats(),
+                        loggedInUser.getId(),
+                        loggedInUser.getUsername())).collect(Collectors.toList()));
     }
 
 
