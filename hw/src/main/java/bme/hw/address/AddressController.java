@@ -5,10 +5,10 @@ import bme.hw.auth_user.AuthUserRepository;
 import bme.hw.entities.Address;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/address")
@@ -25,7 +25,7 @@ public class AddressController {
 
 
     @PostMapping("/authUser/addAddress")
-    public void addNewAddress(@RequestBody AddressDTO addressDTO){
+    public void addNewAddress(@RequestBody ResponseAddressDTO addressDTO){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new RuntimeException("Logged user not present in database"));
@@ -33,5 +33,18 @@ public class AddressController {
         address.setAddress(addressDTO.getAddress());
         address.setCustomer(loggedInUser);
         addressRepository.save(address);
+    }
+
+    @GetMapping
+    public List<ResponseAddressDTO> getAddress(){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new RuntimeException("Logged user not present in database"));
+        List<Address> addresses = addressRepository.findByCustomer_Id(loggedInUser.getId());
+        if(addresses.isEmpty())
+            return null;
+        List<ResponseAddressDTO> addressDTOS = new ArrayList<>();
+        addresses.forEach(a -> addressDTOS.add(new ResponseAddressDTO(a.getAddress(),loggedInUser.getId())));
+        return addressDTOS;
     }
 }
