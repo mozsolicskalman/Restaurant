@@ -9,11 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @Setter
 @Entity
 public class Reservation extends AbstractEntity {
+    public Reservation(LocalDateTime reservationTime, Optional<Desk> desk, AuthUser customer) {
+        this.reservationTime = reservationTime;
+        this.desk = desk;
+        this.customer = customer;
+    }
 
     private LocalDateTime reservationTime;
 

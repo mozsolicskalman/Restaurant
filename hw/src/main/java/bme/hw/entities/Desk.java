@@ -1,6 +1,7 @@
 package bme.hw.entities;
 
 import bme.hw.base.AbstractEntity;
+import bme.hw.entities.Reservation;
 import lombok.Getter;
 import lombok.Setter;
 
