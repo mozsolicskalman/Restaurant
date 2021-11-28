@@ -1,6 +1,7 @@
 package bme.hw.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //@formatter:off
         http.authorizeRequests()
                         .antMatchers("/api/login").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .antMatchers("/h2/console/**").permitAll()
                         .anyRequest().authenticated()
                         .and()

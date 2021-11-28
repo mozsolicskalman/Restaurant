@@ -29,4 +29,8 @@
         <sqlFile relativeToChangelogFile="true" path="06_create_coupon.sql"/>
     </changeSet>
 
+    <changeSet id="7" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="07_create_auth_user_roles.sql"/>
+    </changeSet>
+
 </databaseChangeLog>
