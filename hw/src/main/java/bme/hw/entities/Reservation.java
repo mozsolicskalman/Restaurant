@@ -15,11 +15,6 @@ import java.util.Optional;
 @Setter
 @Entity
 public class Reservation extends AbstractEntity {
-    public Reservation(LocalDateTime reservationTime, Optional<Desk> desk, AuthUser customer) {
-        this.reservationTime = reservationTime;
-        this.desk = desk;
-        this.customer = customer;
-    }
 
     private LocalDateTime reservationTime;
 

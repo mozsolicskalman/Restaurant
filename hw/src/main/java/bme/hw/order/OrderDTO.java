@@ -1,25 +1,22 @@
 package bme.hw.order;
 
-import bme.hw.auth_user.AuthUser;
 import bme.hw.entities.OrderType;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
-
+import lombok.Getter;
+@Getter
 public class OrderDTO {
-    public OrderDTO(Long feedback, Long customer_id, OrderType orderType, Long coupon_id) {
-        this.feedback = feedback;
-        this.customer_id = customer_id;
-        this.orderType = orderType;
-        this.coupon_id = coupon_id;
-    }
 
-    private Long feedback;
+    private Long price;
 
     private Long customer_id;
 
     private OrderType orderType;
+
+    public OrderDTO(Long price, Long customer_id, OrderType orderType, Long coupon_id) {
+        this.price = price;
+        this.customer_id = customer_id;
+        this.orderType = orderType;
+        this.coupon_id = coupon_id;
+    }
 
     private Long coupon_id;
 }

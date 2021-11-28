@@ -43,8 +43,12 @@ public class DeskController {
             throw new RuntimeException("Table is already reserved");
         }
         Optional<Desk> desk = deskRepository.findById(id);
-        if (!desk.isEmpty()) {
-            reservationRepository.save(new Reservation(now, desk, loggedInUser));
+        if (desk.isPresent()) {
+            Reservation reservation = new Reservation();
+            reservation.setReservationTime(now);
+            reservation.setCustomer(loggedInUser);
+            reservation.setDesk(desk.get());
+            reservationRepository.save(reservation);
         }
     }
 }
