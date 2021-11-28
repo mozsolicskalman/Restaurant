@@ -2,9 +2,9 @@ package bme.hw.auth_user;
 
 import bme.hw.base.AbstractEntity;
 import bme.hw.base.auth.Role;
-import bme.hw.database.entities.Address;
-import bme.hw.database.entities.Order;
-import bme.hw.database.entities.Reservation;
+import bme.hw.entities.Address;
+import bme.hw.entities.Order;
+import bme.hw.entities.Reservation;
 import lombok.Getter;
 import lombok.Setter;
 

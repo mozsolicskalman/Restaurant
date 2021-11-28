@@ -1,4 +1,4 @@
-package bme.hw.database.entities;
+package bme.hw.entities;
 
 import bme.hw.base.AbstractEntity;
 import lombok.Getter;
@@ -14,6 +14,8 @@ import java.util.List;
 public class Desk extends AbstractEntity {
     @OneToMany(mappedBy = "desk")
     private List<Reservation> reservations;
+
+    private Long seats;
 }
 
 

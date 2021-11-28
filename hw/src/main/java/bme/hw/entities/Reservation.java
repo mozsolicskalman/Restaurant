@@ -1,4 +1,4 @@
-package bme.hw.database.entities;
+package bme.hw.entities;
 
 import bme.hw.auth_user.AuthUser;
 import bme.hw.base.AbstractEntity;
@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 
 @Getter

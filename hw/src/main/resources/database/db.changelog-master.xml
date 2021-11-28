@@ -25,4 +25,8 @@
         <sqlFile relativeToChangelogFile="true" path="05_create_address.sql"/>
     </changeSet>
 
+    <changeSet id="6" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="06_create_coupon.sql"/>
+    </changeSet>
+
 </databaseChangeLog>
