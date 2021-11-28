@@ -19,8 +19,8 @@ public class Reservation extends AbstractEntity {
     private LocalDateTime reservationTime;
 
     @ManyToOne
-    @JoinColumn(name = "table_id", nullable = false)
-    private Table table;
+    @JoinColumn(name = "desk_id", nullable = false)
+    private Desk desk;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

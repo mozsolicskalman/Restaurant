@@ -10,11 +10,19 @@
     </changeSet>
 
     <changeSet id="2" author="mkalman">
-        <sqlFile relativeToChangelogFile="true" path="02_create_table.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="02_create_desk.sql"/>
     </changeSet>
 
     <changeSet id="3" author="mkalman">
         <sqlFile relativeToChangelogFile="true" path="03_create_reservation.sql"/>
+    </changeSet>
+
+    <changeSet id="4" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="04_create_order.sql"/>
+    </changeSet>
+
+    <changeSet id="5" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="05_create_address.sql"/>
     </changeSet>
 
 </databaseChangeLog>

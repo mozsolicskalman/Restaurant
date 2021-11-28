@@ -7,18 +7,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Entity
 public class Order extends AbstractEntity {
 
-    @Column(name="FEED_BACK", length=5)
-    private int feedBack;
+    private Long feedback;
 
-    @Column(name="ORDER_TIME")
     private LocalDateTime orderTime;
 
-    @Column(name="CUSTOMER", length = 50, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private AuthUser customer;
 }

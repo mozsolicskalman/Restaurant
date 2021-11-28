@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Table extends AbstractEntity {
-    @OneToMany(mappedBy = "table")
+public class Desk extends AbstractEntity {
+    @OneToMany(mappedBy = "desk")
     private List<Reservation> reservations;
 }
 
