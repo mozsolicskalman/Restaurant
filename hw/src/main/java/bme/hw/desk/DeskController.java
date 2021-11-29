@@ -8,11 +8,7 @@ import bme.hw.reservation.ReservationRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -56,5 +52,11 @@ public class DeskController {
                         r -> r.getReservationTime().getDayOfYear() == LocalDateTime.of(requestDTO.getYear().intValue(), requestDTO.getMonth().intValue(), requestDTO.getDay().intValue(), 0, 0).getDayOfYear() && requestDTO.getHour() == r
                                         .getReservationTime().getHour()).forEach(reservation -> bannedDesks.add(reservation.getDesk()));
         return ResponseEntity.ok().body(deskRepository.findAll().stream().filter(desk -> !bannedDesks.contains(desk)).map(TableResponseDTO::new).collect(Collectors.toList()));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable("id") Long id){
+        if(id!=null)
+            deskRepository.deleteById(id);
     }
 }

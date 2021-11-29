@@ -47,4 +47,10 @@ public class AddressController {
         addresses.forEach(a -> addressDTOS.add(new ResponseAddressDTO(a.getAddress(),loggedInUser.getId())));
         return addressDTOS;
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable("id") Long id){
+        if(id!=null)
+            addressRepository.deleteById(id);
+    }
 }
