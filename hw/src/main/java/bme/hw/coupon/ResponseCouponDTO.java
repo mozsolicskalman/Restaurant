@@ -1,9 +1,15 @@
 package bme.hw.coupon;
 
-public class ResponseCouponDTO {
-    public ResponseCouponDTO(Long percentage) {
-        this.percentage = percentage;
-    }
+import bme.hw.entities.Coupon;
+import lombok.Getter;
 
+@Getter
+public class ResponseCouponDTO {
     private Long percentage;
+    private Long id;
+
+    public ResponseCouponDTO(Coupon coupon) {
+        this.percentage = coupon.getPercentage();
+        this.id = coupon.getId();
+    }
 }

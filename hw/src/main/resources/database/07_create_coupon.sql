@@ -5,7 +5,7 @@ CREATE TABLE coupon
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     percentage BIGINT NOT NULL,
     customer_id BIGINT NOT NULL,
-    order_id BIGINT NOT NULL,
+    order_id BIGINT,
     FOREIGN KEY (customer_id) references auth_user (id),
-    FOREIGN KEY (order_id) references "ORDER" (id)
+    FOREIGN KEY (order_id) references order_entity (id)
 );

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "order_entity")
 public class Order extends AbstractEntity {
 
     private LocalDateTime orderTime;
@@ -20,8 +21,10 @@ public class Order extends AbstractEntity {
 
     private OrderType orderType;
 
-    private Long price;
-
     @OneToOne(mappedBy = "order")
     private Coupon coupon;
+
+    @ManyToOne
+    @JoinColumn(name = "meal_id", nullable = false)
+    private Meal meal;
 }

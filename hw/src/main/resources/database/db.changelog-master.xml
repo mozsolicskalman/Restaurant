@@ -13,28 +13,32 @@
         <sqlFile relativeToChangelogFile="true" path="02_create_desk.sql"/>
     </changeSet>
 
-    <changeSet id="3" author="mkalman">
-        <sqlFile relativeToChangelogFile="true" path="03_create_reservation.sql"/>
+    <changeSet id="3" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="03_create_meal.sql"/>
     </changeSet>
 
     <changeSet id="4" author="bkovacs">
         <sqlFile relativeToChangelogFile="true" path="04_create_order.sql"/>
     </changeSet>
 
-    <changeSet id="5" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="05_create_address.sql"/>
+    <changeSet id="5" author="mkalman">
+        <sqlFile relativeToChangelogFile="true" path="05_create_reservation.sql"/>
     </changeSet>
 
     <changeSet id="6" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="06_create_coupon.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="06_create_address.sql"/>
     </changeSet>
 
     <changeSet id="7" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="07_create_auth_user_roles.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="07_create_coupon.sql"/>
     </changeSet>
 
     <changeSet id="8" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="08_add_init_data.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="08_create_auth_user_roles.sql"/>
+    </changeSet>
+
+    <changeSet id="9" author="bkovacs">
+        <sqlFile relativeToChangelogFile="true" path="09_add_init_data.sql"/>
     </changeSet>
 
 </databaseChangeLog>
