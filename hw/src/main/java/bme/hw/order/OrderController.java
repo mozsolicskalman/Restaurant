@@ -8,6 +8,7 @@ import bme.hw.entities.Address;
 import bme.hw.entities.Coupon;
 import bme.hw.entities.Meal;
 import bme.hw.entities.Order;
+import bme.hw.entities.OrderType;
 import bme.hw.meal.MealRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,15 +78,26 @@ public class OrderController {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
                         () -> new RuntimeException("Logged user not present in database"));
-        List<Order> orders = orderRepository.findByCustomer_id(loggedInUser.getId());
-        if (orders.isEmpty())
-            return null;
+        List<Order> orders = orderRepository.findAllByCustomer(loggedInUser);
         return ResponseEntity.ok().body(orders.stream().map(ResponseOrderDTO::new).collect(Collectors.toList()));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/admin")
+    public ResponseEntity<Object> findAllForAdmin() {
+        List<Order> orders = orderRepository.findAll();
+        return ResponseEntity.ok().body(orders.stream().map(ResponseOrderDTO::new).collect(Collectors.toList()));
+    }
+
+    @DeleteMapping("/{id}")
     public void deleteAddress(@PathVariable("id") Long id){
         if(id!=null)
             orderRepository.deleteById(id);
+    }
+
+    @PostMapping("/{orderId}/changeDeliveryMethod")
+    public void changeDeliveryMethod(@PathVariable("orderId") Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not present in database"));
+        order.setOrderType(order.getOrderType() == OrderType.DELIVERY ? OrderType.IN_PLACE : OrderType.DELIVERY);
+        orderRepository.save(order);
     }
 }

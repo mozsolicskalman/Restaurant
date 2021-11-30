@@ -9,17 +9,15 @@ import java.time.LocalDateTime;
 @Getter
 public class ResponseOrderDTO {
 
+    private Long id;
     private LocalDateTime orderTime;
-
     private OrderType orderType;
-
     private Long price;
-
     private Long couponPercentage;
-
     private String address;
 
     public ResponseOrderDTO(Order order) {
+        this.id = order.getId();
         this.orderTime = order.getOrderTime();
         this.orderType = order.getOrderType();
         this.price = order.getMeal().getPrice();

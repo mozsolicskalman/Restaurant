@@ -33,7 +33,6 @@ public class DeskController {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
                         () -> new RuntimeException("Logged user not present in database"));
-        LocalDateTime now = LocalDateTime.now();
         Desk desk = deskRepository.findAllBySeatsIs(seatNumber).stream().filter(d -> d.getReservations().stream()
                         .noneMatch(r -> r.getReservationTime().getDayOfYear() == LocalDateTime.of(requestDTO.getYear().intValue(),
                                         requestDTO.getMonth().intValue(), requestDTO.getDay().intValue(), 0, 0).getDayOfYear() && requestDTO.getHour() == r
