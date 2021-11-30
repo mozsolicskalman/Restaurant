@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("/api/reservations")
 public class ReservationController {
 
     private final ReservationRepository reservationRepository;
@@ -25,17 +25,21 @@ public class ReservationController {
     }
 
 
+    /*
     @PutMapping("/updateReservation")
     public void updateReservation(@RequestBody ReservationDTO reservationDTO){
         Optional<Reservation> reservation = reservationRepository.findById(reservationDTO.getId());
         reservation.get().
     }
 
+     */
+
     @PostMapping("/{reservationId}/feedback/{feedback}")
     public void addFeedback(@PathVariable("reservationId") Long reservationId, @PathVariable("feedback") Long feedback){
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
-        reservation.get().setFeedback(feedback);
-        reservationRepository.save(reservation.get());
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(
+                        () -> new RuntimeException("Reservation not present in database"));
+        reservation.setFeedback(feedback);
+        reservationRepository.save(reservation);
     }
 
     @GetMapping
@@ -44,11 +48,7 @@ public class ReservationController {
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new RuntimeException("Logged user not present in database"));
         List<Reservation> reservations = reservationRepository.findAllByCustomer(loggedInUser);
-        return ResponseEntity.ok().body(reservations.stream().map(reservation -> new ReservationResponseDTO(reservation.getReservationTime(),
-                        reservation.getDesk().getId(),
-                        reservation.getDesk().getSeats(),
-                        loggedInUser.getId(),
-                        loggedInUser.getUsername())).collect(Collectors.toList()));
+        return ResponseEntity.ok().body(reservations.stream().map(ReservationResponseDTO::new).collect(Collectors.toList()));
     }
 
     @DeleteMapping("/delete/{id}")

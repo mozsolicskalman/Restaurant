@@ -1,30 +1,22 @@
 package bme.hw.reservation;
 
-import bme.hw.auth_user.AuthUser;
-import bme.hw.entities.Desk;
+import bme.hw.entities.Reservation;
+import lombok.Getter;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
+@Getter
 public class ReservationResponseDTO {
 
+    private Long id;
     private LocalDateTime reservationTime;
-
-    private Long desk_id;
-
     private Long seats;
+    private Long feedback;
 
-    private Long customer_id;
-
-    private String username;
-
-
-    public ReservationResponseDTO(LocalDateTime reservationTime, Long desk_id, Long seats, Long customer_id, String username) {
-        this.reservationTime = reservationTime;
-        this.desk_id = desk_id;
-        this.seats = seats;
-        this.customer_id = customer_id;
-        this.username = username;
+    public ReservationResponseDTO(Reservation reservation) {
+        this.id = reservation.getId();
+        this.reservationTime = reservation.getReservationTime();
+        this.seats = reservation.getDesk().getSeats();
+        this.feedback = reservation.getFeedback();
     }
 }
