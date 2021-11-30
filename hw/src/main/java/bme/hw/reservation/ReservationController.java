@@ -24,13 +24,13 @@ public class ReservationController {
         this.authUserRepository = authUserRepository;
     }
 
-/*
+
     @PutMapping("/updateReservation")
     public void updateReservation(@RequestBody ReservationDTO reservationDTO){
         Optional<Reservation> reservation = reservationRepository.findById(reservationDTO.getId());
         reservation.get().
     }
-*/
+
     @PostMapping("/{reservationId}/feedback/{feedback}")
     public void addFeedback(@PathVariable("reservationId") Long reservationId, @PathVariable("feedback") Long feedback){
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
@@ -51,5 +51,9 @@ public class ReservationController {
                         loggedInUser.getUsername())).collect(Collectors.toList()));
     }
 
-
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable("id") Long id){
+        if(id!=null)
+            reservationRepository.deleteById(id);
+    }
 }

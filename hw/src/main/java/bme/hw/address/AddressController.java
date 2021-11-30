@@ -48,4 +48,10 @@ public class AddressController {
             return null;
         return ResponseEntity.ok().body(addresses.stream().map(AddressResponseDTO::new).collect(Collectors.toList()));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable("id") Long id){
+        if(id!=null)
+            addressRepository.deleteById(id);
+    }
 }

@@ -1,10 +1,7 @@
 package bme.hw.meal;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
@@ -20,6 +17,12 @@ public class MealController {
     @GetMapping
     public ResponseEntity<Object> findAll() {
         return ResponseEntity.ok().body(mealRepository.findAll().stream().map(FindAllMealsResponseDTO::new).collect(Collectors.toList()));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable("id") Long id){
+        if(id!=null)
+            mealRepository.deleteById(id);
     }
 
 }
