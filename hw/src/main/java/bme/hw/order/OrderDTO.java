@@ -7,4 +7,5 @@ import lombok.Getter;
 public class OrderDTO {
     private OrderType orderType;
     private Long couponId;
+    private Long addressId;
 }

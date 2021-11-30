@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +21,7 @@ public class Address extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private AuthUser customer;
+
+    @OneToMany(mappedBy = "address")
+    private List<Order> orders;
 }

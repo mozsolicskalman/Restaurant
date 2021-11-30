@@ -18,7 +18,7 @@
     </changeSet>
 
     <changeSet id="4" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="04_create_order.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="04_create_address.sql"/>
     </changeSet>
 
     <changeSet id="5" author="mkalman">
@@ -26,7 +26,7 @@
     </changeSet>
 
     <changeSet id="6" author="bkovacs">
-        <sqlFile relativeToChangelogFile="true" path="06_create_address.sql"/>
+        <sqlFile relativeToChangelogFile="true" path="06_create_order.sql"/>
     </changeSet>
 
     <changeSet id="7" author="bkovacs">

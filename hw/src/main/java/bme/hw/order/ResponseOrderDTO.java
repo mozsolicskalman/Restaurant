@@ -17,10 +17,13 @@ public class ResponseOrderDTO {
 
     private Long couponPercentage;
 
+    private String address;
+
     public ResponseOrderDTO(Order order) {
         this.orderTime = order.getOrderTime();
         this.orderType = order.getOrderType();
         this.price = order.getMeal().getPrice();
         this.couponPercentage = order.getCoupon() == null ? 0 : order.getCoupon().getPercentage();
+        this.address = order.getAddress().getAddress();
     }
 }
