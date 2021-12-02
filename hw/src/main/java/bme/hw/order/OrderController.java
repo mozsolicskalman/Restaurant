@@ -3,6 +3,8 @@ package bme.hw.order;
 import bme.hw.address.AddressRepository;
 import bme.hw.auth_user.AuthUser;
 import bme.hw.auth_user.AuthUserRepository;
+import bme.hw.base.auth.Role;
+import bme.hw.base.auth.RoleSecured;
 import bme.hw.coupon.CouponRepository;
 import bme.hw.entities.Address;
 import bme.hw.entities.Coupon;
@@ -39,6 +41,7 @@ public class OrderController {
     }
 
     @PostMapping("{mealId}")
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public void createOrder(@PathVariable("mealId") Long mealId, @RequestBody OrderDTO orderDTO) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -74,6 +77,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public ResponseEntity<Object> findAll() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -83,18 +87,21 @@ public class OrderController {
     }
 
     @GetMapping("/admin")
+    @RoleSecured({ Role.ROLE_ADMIN })
     public ResponseEntity<Object> findAllForAdmin() {
         List<Order> orders = orderRepository.findAll();
         return ResponseEntity.ok().body(orders.stream().map(ResponseOrderDTO::new).collect(Collectors.toList()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
+    @RoleSecured({ Role.ROLE_ADMIN })
+    public void deleteOrder(@PathVariable("id") Long id){
         if(id!=null)
             orderRepository.deleteById(id);
     }
 
     @PostMapping("/{orderId}/changeDeliveryMethod")
+    @RoleSecured({ Role.ROLE_ADMIN })
     public void changeDeliveryMethod(@PathVariable("orderId") Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not present in database"));
         order.setOrderType(order.getOrderType() == OrderType.DELIVERY ? OrderType.IN_PLACE : OrderType.DELIVERY);

@@ -41,12 +41,4 @@ public class AuthUserController {
         authUserService.create(requestDTO);
         return ResponseEntity.ok().build();
     }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
-        if(id!=null)
-            authUserRepository.deleteById(id);
-    }
-
-
 }

@@ -2,6 +2,8 @@ package bme.hw.address;
 
 import bme.hw.auth_user.AuthUser;
 import bme.hw.auth_user.AuthUserRepository;
+import bme.hw.base.auth.Role;
+import bme.hw.base.auth.RoleSecured;
 import bme.hw.entities.Address;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +32,7 @@ public class AddressController {
     }
 
     @PostMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public Long addNewAddress(@RequestBody AddressRequestDTO addressDTO) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -41,6 +44,7 @@ public class AddressController {
     }
 
     @GetMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public ResponseEntity<Object> getAddresses() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -49,11 +53,5 @@ public class AddressController {
         if (addresses.isEmpty())
             return null;
         return ResponseEntity.ok().body(addresses.stream().map(AddressResponseDTO::new).collect(Collectors.toList()));
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
-        if(id!=null)
-            addressRepository.deleteById(id);
     }
 }

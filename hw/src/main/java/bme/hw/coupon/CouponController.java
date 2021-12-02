@@ -2,6 +2,8 @@ package bme.hw.coupon;
 
 import bme.hw.auth_user.AuthUser;
 import bme.hw.auth_user.AuthUserRepository;
+import bme.hw.base.auth.Role;
+import bme.hw.base.auth.RoleSecured;
 import bme.hw.entities.Coupon;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
@@ -25,6 +27,7 @@ public class CouponController {
     }
 
     @GetMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public ResponseEntity<Object> getCoupons(){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -33,11 +36,5 @@ public class CouponController {
         if(coupons.isEmpty())
             return null;
         return ResponseEntity.ok().body(coupons.stream().map(ResponseCouponDTO::new).collect(Collectors.toList()));
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
-        if(id!=null)
-            couponRepository.deleteById(id);
     }
 }

@@ -1,5 +1,7 @@
 package bme.hw.meal;
 
+import bme.hw.base.auth.Role;
+import bme.hw.base.auth.RoleSecured;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +17,8 @@ public class MealController {
     }
 
     @GetMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public ResponseEntity<Object> findAll() {
         return ResponseEntity.ok().body(mealRepository.findAll().stream().map(FindAllMealsResponseDTO::new).collect(Collectors.toList()));
     }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
-        if(id!=null)
-            mealRepository.deleteById(id);
-    }
-
 }

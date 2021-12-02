@@ -2,6 +2,8 @@ package bme.hw.reservation;
 
 import bme.hw.auth_user.AuthUser;
 import bme.hw.auth_user.AuthUserRepository;
+import bme.hw.base.auth.Role;
+import bme.hw.base.auth.RoleSecured;
 import bme.hw.desk.DeskRepository;
 import bme.hw.desk.ReserveTableRequestDTO;
 import bme.hw.entities.Desk;
@@ -30,6 +32,7 @@ public class ReservationController {
     }
 
     @PostMapping("/{reservationId}/feedback/{feedback}")
+    @RoleSecured({ Role.ROLE_CUSTOMER, Role.ROLE_ADMIN })
     public void sendFeedback(@PathVariable("reservationId") Long reservationId, @PathVariable("feedback") Long feedback){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(
                         () -> new RuntimeException("Reservation not present in database"));
@@ -38,6 +41,7 @@ public class ReservationController {
     }
 
     @GetMapping
+    @RoleSecured({ Role.ROLE_CUSTOMER })
     public ResponseEntity<Object> getReservations(){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser loggedInUser = authUserRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -47,17 +51,20 @@ public class ReservationController {
     }
 
     @GetMapping("/admin")
+    @RoleSecured({ Role.ROLE_ADMIN })
     public ResponseEntity<Object> getReservationsForAdmin(){
         return ResponseEntity.ok().body(reservationRepository.findAll().stream().map(ReservationResponseDTO::new).collect(Collectors.toList()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAddress(@PathVariable("id") Long id){
+    @RoleSecured({ Role.ROLE_ADMIN })
+    public void deleteReservation(@PathVariable("id") Long id){
         if(id!=null)
             reservationRepository.deleteById(id);
     }
 
     @PostMapping("/{reservationId}/editSeatNumber/{seats}")
+    @RoleSecured({ Role.ROLE_ADMIN })
     public void editSeatNumber(@PathVariable("reservationId") Long reservationId, @PathVariable("seats") Long seats, @RequestBody ReserveTableRequestDTO requestDTO){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(
                         () -> new RuntimeException("Reservation not present in database"));
